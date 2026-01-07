@@ -132,7 +132,7 @@ Public NotInheritable Class Game1
         Const TITLE_DRAWING_SCALE = 2
 
         ' TODO: Add your drawing code here
-        _spriteBatch.Begin()
+        _spriteBatch.Begin(samplerState:=SamplerState.PointClamp)
         _player.Draw(_spriteBatch)
         If Not UsePeanut Then
             _coin.Frame = CInt(gameTime.TotalGameTime.TotalSeconds * 10) Mod 3

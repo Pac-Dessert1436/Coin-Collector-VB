@@ -14,7 +14,10 @@ Players can also choose to play the game with peanuts as collectibles. However, 
 ![Screenshot B](screenshot_B.png)
 
 ## Important Note
-The font file `pac-land-new-concepts.ttf` is not recognized by the MonoGame Content Builder unless installed. *__You must install this font manually; otherwise, the game compilation will fail.__*
+The game font file, `pac-land-new-concepts.ttf`, will be recognized by the MonoGame Content Builder if placed in the "Content" folder and specified in "game_font.spritefont" as shown below. _No need to manually install this font unless using it in your desktop system._
+``` xml
+<FontName>pac-land-new-concepts.ttf</FontName>
+```
 
 ## Prerequisites
 Before you can run the "Coin Collector VB" game, ensure you have the following software installed on your system:

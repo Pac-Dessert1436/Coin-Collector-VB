@@ -38,9 +38,7 @@ Public Class Player
             Score += 1
             coin.SpawnRandomlyButAvoidPlayer(Me)
         End If
-        If Score > Highest Then
-            Highest = Score
-        End If
+        If Score > Highest Then Highest = Score
     End Sub
 
     Public Sub WrapPosition()
