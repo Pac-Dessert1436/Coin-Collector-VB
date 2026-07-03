@@ -3,31 +3,24 @@
 ![Screenshot A](screenshot_A.png)
 
 ## Description
-"Coin Collector VB" is a minimalist coin collecting game developed in VB.NET using the MonoGame framework. Set against a black-hued backdrop, the game offers a straightforward yet engaging experience. 
+_Coin Collector VB_ is a minimalist coin-collecting game built with VB.NET and MonoGame. Navigate a character using arrow keys across a black backdrop, with seamless screen-edge wrapping that lets you reappear on the opposite side instantly.
 
-Players take control of a character using the arrow keys. As they navigate the screen, a unique position-wrapping mechanism ensures that the character seamlessly reappears on the opposite side of the screen when it reaches an edge.
-
-The game features a 60-second countdown timer. The objective is to collect as many coins as possible before the timer runs out. Each coin is worth 1 point.
-
-Players can also choose to play the game with peanuts as collectibles. However, it's important to note that peanuts only change the appearance of the game. They don't change the way the character moves or interact with the environment.
+Race against a 60-second timer (no pause functionality currently available) to collect as many coins as possible—each worth 1 point. For a visual twist, you can also choose to collect peanuts instead of coins (this only changes the collectible's appearance, not gameplay mechanics).
 
 ![Screenshot B](screenshot_B.png)
 
-## Important Note
-The game's font file (`pac-land-new-concepts.ttf`) is not always recognized by the MonoGame Content Builder when running the project - manual installation of the font on your system is strongly recommended for reliable loading.
-
-While placing the TTF file in the same directory as the sprite font file (`game_font.spritefont`) might work in some cases, this method is inconsistent and prone to compilation errors. *__For guaranteed compatibility and to avoid build failures, install the font directly to your desktop system before compiling the game.__*
+> **Note:** The game has been upgraded to .NET SDK 10.0 and now uses the [Fusion Pixel Font](https://github.com/TakWolf/fusion-pixel-font).
 
 ## Prerequisites
-Before you can run the "Coin Collector VB" game, ensure you have the following software installed on your system:
+Ensure you have the following software installed on your system before running the game:
 
 ### Integrated Development Environment (IDE)
 You can use either of the following IDEs:
-- **Visual Studio 2022**: A comprehensive IDE with rich features for .NET development.
+- **Visual Studio 2026**: A comprehensive IDE with rich features for .NET development.
 - **Visual Studio Code**: A lightweight and highly customizable code editor.
 
 ### .NET SDK
-Install [.NET SDK Version 8.0 or higher](https://dotnet.microsoft.com/en-us/download). This is essential for building and running the VB.NET application.
+Install [.NET SDK Version 10.0 or higher](https://dotnet.microsoft.com/en-us/download). This is essential for building and running the VB.NET application.
 
 ### MonoGame Template
 Install the MonoGame template using the following command in your terminal:
@@ -38,7 +31,7 @@ dotnet new install MonoGame.Templates.CSharp
 ## Additional Setup Steps
 Depending on the IDE you choose, you'll need to perform some extra setup steps:
 
-### Visual Studio 2022
+### Visual Studio 2026
 Install the following extensions from the Visual Studio Marketplace:
 - **MonoGame Framework C# project templates**: Provides project templates for MonoGame development.
 - **Code Converter (VB-C#)**: Useful for converting code between VB.NET and C#.

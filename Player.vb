@@ -21,7 +21,9 @@ Public Class Player
     Public ReadOnly Property Bounds As Rectangle
         Get
             Return New Rectangle(
-                Position.X, Position.Y, Texture.Width * DRAWING_SCALE,
+                CInt(Position.X),
+                CInt(Position.Y),
+                Texture.Width * DRAWING_SCALE,
                 Texture.Height * DRAWING_SCALE
             )
         End Get

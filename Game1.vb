@@ -13,16 +13,19 @@ Public NotInheritable Class Game1
     Private _peanutTitle As Texture2D
     Public Const VIEWPORT_WIDTH As Integer = 800
     Public Const VIEWPORT_HEIGHT As Integer = 600
+
     Public Shared ReadOnly Property CenterPos As Vector2
         Get
             Return New Vector2(VIEWPORT_WIDTH / 2, VIEWPORT_HEIGHT / 2)
         End Get
     End Property
+
     Private timeLeft As Single, isGameOver As Boolean, isGameStart As Boolean
     Private _mainTheme As Song, _coinSound As SoundEffect
+
     Private Property UsePeanut As Boolean
 
-    Public Sub New(usePeanut As Boolean)
+    Public Sub New()
         _graphics = New GraphicsDeviceManager(Me) With {
             .PreferredBackBufferWidth = VIEWPORT_WIDTH,
             .PreferredBackBufferHeight = VIEWPORT_HEIGHT
@@ -31,7 +34,6 @@ Public NotInheritable Class Game1
 
         Content.RootDirectory = "Content"
         IsMouseVisible = False
-        Me.UsePeanut = usePeanut
     End Sub
 
     Public Event ResetGame As EventHandler
@@ -52,13 +54,25 @@ Public NotInheritable Class Game1
     End Function
 
     Protected Overrides Sub Initialize()
-        ' TODO: Add your initialization logic here
+        System.Windows.Forms.Application.EnableVisualStyles()
+        UsePeanut = MsgBox("Use peanuts as collectibles during gameplay?
+If not, simply click 'Cancel' to continue.",
+            MsgBoxStyle.OkCancel, "Welcome to Coin Collector!") = MsgBoxResult.Ok
+        isGameStart = False
+        MyBase.Initialize()
+    End Sub
+
+    Protected Overrides Sub LoadContent()
+        _spriteBatch = New SpriteBatch(GraphicsDevice)
+
+        ' TODO: use Me.Content to load your game content here
         _player = New Player(Content.Load(Of Texture2D)("player_right"), CenterPos)
         _coin = New Coin(Content.Load(Of Texture2D)(If(UsePeanut, "peanut", "coin_animation")))
         _gameFont = Content.Load(Of SpriteFont)("game_font")
         _mainTheme = Content.Load(Of Song)("main_theme")
-        isGameStart = False
-
+        _peanutTitle = Content.Load(Of Texture2D)("peanut_title")
+        _coinSound = Content.Load(Of SoundEffect)(If(UsePeanut, "peanut_sound", "coin_sound"))
+        SoundEffect.MasterVolume = 0.8F
         ResetGameEvent = Sub(sender, e)
                              If isGameStart Then MediaPlayer.Play(_mainTheme)
                              _player.Score = 0
@@ -68,17 +82,6 @@ Public NotInheritable Class Game1
                              isGameOver = False
                          End Sub
         RaiseEvent ResetGame(Nothing, EventArgs.Empty)
-
-        MyBase.Initialize()
-    End Sub
-
-    Protected Overrides Sub LoadContent()
-        _spriteBatch = New SpriteBatch(GraphicsDevice)
-
-        ' TODO: use this.Content to load your game content here
-        _peanutTitle = Content.Load(Of Texture2D)("peanut_title")
-        _coinSound = Content.Load(Of SoundEffect)(If(UsePeanut, "peanut_sound", "coin_sound"))
-        SoundEffect.MasterVolume = 0.8F
     End Sub
 
     Protected Overrides Sub Update(gameTime As GameTime)
@@ -154,25 +157,28 @@ Public NotInheritable Class Game1
         _coin.Draw(_spriteBatch)
 
         _spriteBatch.DrawString(
-            _gameFont, $"Score: {_player.Score,2} | Highest: {_player.Highest,2}
-
+            _gameFont, $"Score: {_player.Score,2}   Highest: {_player.Highest,2}
 Time Left: {timeLeft,2:F0}",
             If(_coin.Position.Y > HUD_HEIGHT, New Vector2(10, 10),
                 New Vector2(10, VIEWPORT_HEIGHT - HUD_HEIGHT)),
             Color.White
         )
         If Not isGameStart Then
+            Dim message = "Press 'SPACE' to begin the game."
+            Dim msgCenterX = (VIEWPORT_WIDTH - _gameFont.MeasureString(message).X) / 2
             _spriteBatch.DrawString(
                 _gameFont,
-                "Press 'SPACE' to begin the game.",
-                New Vector2(75, VIEWPORT_HEIGHT / 2 - 50),
+                message,
+                New Vector2(msgCenterX, VIEWPORT_HEIGHT / 2 - 50),
                 Color.White
             )
         ElseIf isGameOver Then
+            Dim message = "GAME OVER! Press 'R' to restart."
+            Dim msgCenterX = (VIEWPORT_WIDTH - _gameFont.MeasureString(message).X) / 2
             _spriteBatch.DrawString(
                 _gameFont,
-                "GAME OVER! Press 'R' to restart.",
-                New Vector2(75, VIEWPORT_HEIGHT / 2),
+                message,
+                New Vector2(msgCenterX, VIEWPORT_HEIGHT / 2),
                 Color.White
             )
         End If
@@ -183,9 +189,8 @@ Time Left: {timeLeft,2:F0}",
 
     Friend Shared Sub Main()
         System.Windows.Forms.Application.EnableVisualStyles()
-        Dim usePeanut As Boolean = (MsgBox("Use peanuts as collectibles during gameplay?
-If not, simply click 'Cancel' to continue.",
-            MsgBoxStyle.OkCancel, "Welcome to Coin Collector!") = MsgBoxResult.Ok)
-        Call New Game1(usePeanut).Run()
+        Using game As New Game1
+            game.Run()
+        End Using
     End Sub
 End Class

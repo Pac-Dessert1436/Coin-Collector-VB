@@ -6,7 +6,7 @@ Public Class Coin
     Public Property Position As Vector2
     Private ReadOnly Property OriginScale As Integer
 
-    Public Sub New(texture As Texture)
+    Public Sub New(texture As Texture2D)
         Me.Texture = texture
         OriginScale = If(texture.Name = "peanut", 15, 10)
     End Sub
@@ -16,8 +16,10 @@ Public Class Coin
     Public ReadOnly Property Bounds As Rectangle
         Get
             Return New Rectangle(
-                Position.X, Position.Y, 
-                OriginScale * DRAWING_SCALE, OriginScale * DRAWING_SCALE
+                CInt(Position.X),
+                CInt(Position.Y),
+                OriginScale * DRAWING_SCALE,
+                OriginScale * DRAWING_SCALE
             )
         End Get
     End Property
